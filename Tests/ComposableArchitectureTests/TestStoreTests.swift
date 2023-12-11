@@ -1,5 +1,12 @@
 #if swift(>=5.9)
+  #if canImport(Combine)
   import Combine
+  #elseif canImport(OpenCombine)
+  import OpenCombine
+  #endif
+  #if canImport(FoundationNetworking)
+  import FoundationNetworking
+  #endif
   import ComposableArchitecture
   import XCTest
 
@@ -77,7 +84,9 @@
     }
 
     #if DEBUG
-      func testExpectedStateEquality() async {
+      func testExpectedStateEquality() async throws {
+        try XCTSkipIfWindowsExpectFailure()
+        
         struct State: Equatable {
           var count: Int = 0
           var isChanging: Bool = false
@@ -124,7 +133,9 @@
         }
       }
 
-      func testExpectedStateEqualityMustModify() async {
+      func testExpectedStateEqualityMustModify() async throws {
+        try XCTSkipIfWindowsExpectFailure()
+        
         struct State: Equatable {
           var count: Int = 0
         }
@@ -158,7 +169,9 @@
         }
       }
 
-      func testReceiveActionMatchingPredicate() async {
+      func testReceiveActionMatchingPredicate() async throws {
+        try XCTSkipIfWindowsExpectFailure()
+        
         enum Action: Equatable {
           case noop, finished
         }
@@ -435,7 +448,8 @@
       }
     }
 
-    func testAssert_NonExhaustiveTestStore() async {
+    func testAssert_NonExhaustiveTestStore() async throws {
+      try XCTSkipIfWindowsExpectFailure()
       let store = TestStore(initialState: 0) {
         EmptyReducer<Int, Void>()
       }

@@ -1,11 +1,17 @@
 #if DEBUG
+  #if canImport(Combine)
   import Combine
+  #elseif canImport(OpenCombine)
+  import OpenCombine
+  #endif
   import ComposableArchitecture
   import XCTest
 
   @MainActor
   final class RuntimeWarningTests: BaseTCATestCase {
-    func testStoreCreationMainThread() async {
+    func testStoreCreationMainThread() async throws {
+      try XCTSkipIfWindowsExpectFailure()
+
       uncheckedUseMainSerialExecutor = false
       XCTExpectFailure {
         $0.compactDescription == """
@@ -23,6 +29,7 @@
     }
 
     func testEffectFinishedMainThread() async throws {
+      try XCTSkipIfWindowsExpectFailure()
       XCTExpectFailure {
         $0.compactDescription == """
           An effect completed on a non-main thread. …
@@ -56,7 +63,8 @@
     }
 
     @MainActor
-    func testStoreScopeMainThread() async {
+    func testStoreScopeMainThread() async throws {
+	  try XCTSkipIfWindowsExpectFailure()
       uncheckedUseMainSerialExecutor = false
       XCTExpectFailure {
         [
@@ -84,8 +92,9 @@
     }
 
     @MainActor
-    func testViewStoreSendMainThread() async {
-      uncheckedUseMainSerialExecutor = false
+    func testViewStoreSendMainThread() async throws {
+	 try XCTSkipIfWindowsExpectFailure()
+     uncheckedUseMainSerialExecutor = false
       XCTExpectFailure {
         $0.compactDescription == """
           "Store.send" was called on a non-main thread with: () …
@@ -176,6 +185,9 @@
       }
     #endif
 
+    #if canImport(SwiftUI)
+    
+    @MainActor
     func testBindingUnhandledAction() {
       let line = #line + 2
       struct State: Equatable {
@@ -225,5 +237,8 @@
           """
       }
     }
+
+    #endif
+
   }
 #endif

@@ -17,6 +17,8 @@
   }
 #endif
 
+#if canImport(SwiftUI)
+
 extension _EphemeralState {
   public static var actionType: Any.Type { Action.self }
 }
@@ -31,6 +33,8 @@ extension _EphemeralState {
   extension AlertState: _EphemeralState {}
   @available(iOS 13, macOS 12, tvOS 13, watchOS 6, *)
   extension ConfirmationDialogState: _EphemeralState {}
+#endif
+
 #endif
 
 @usableFromInline

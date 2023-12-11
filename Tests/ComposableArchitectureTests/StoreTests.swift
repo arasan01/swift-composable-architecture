@@ -1,5 +1,12 @@
 #if swift(>=5.9)
+  #if canImport(Combine)
   import Combine
+  #elseif canImport(OpenCombine)
+  import OpenCombine
+  #endif
+  #if canImport(FoundationNetworking)
+  import FoundationNetworking
+  #endif
   @_spi(Internals) import ComposableArchitecture
   import XCTest
 
@@ -799,6 +806,7 @@
       }
     }
     func testChildParentEffectCancellation() async throws {
+      try XCTSkipIfWindowsExpectFailure()
       let mainQueue = DispatchQueue.test
       let store = Store(
         initialState: Parent_testChildParentEffectCancellation.State(

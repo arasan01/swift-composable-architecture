@@ -1,4 +1,4 @@
-#if swift(>=5.9)
+#if swift(>=5.9) && canImport(SwiftUI)
   import ComposableArchitecture
   import XCTest
 

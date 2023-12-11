@@ -41,7 +41,9 @@
     }
 
     #if DEBUG
-      func testNilChild() async {
+      func testNilChild() async throws {
+        try XCTSkipIfWindowsExpectFailure()
+
         let store = TestStoreOf<Child2>(initialState: Child2.State.count(0)) {
           Scope(state: \.name, action: \.name) {}
         }

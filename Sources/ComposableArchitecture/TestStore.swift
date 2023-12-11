@@ -1,5 +1,9 @@
 @_spi(Internals) import CasePaths
+#if canImport(Combine)
 import Combine
+#elseif canImport(OpenCombine)
+import OpenCombine
+#endif
 import ConcurrencyExtras
 import CustomDump
 import Foundation
@@ -1042,7 +1046,7 @@ extension TestStore where State: Equatable {
       {
         var expectedWhenGivenPreviousState = current
         if let updateStateToExpectedResult {
-          XCTExpectFailure(strict: false) {
+          _XCTExpectFailure(strict: false) {
             do {
               try Dependencies.withDependencies {
                 $0 = self.reducer.dependencies
@@ -2077,7 +2081,7 @@ extension TestStore {
     case .on:
       XCTFail(message, file: file, line: line)
     case .off(showSkippedAssertions: true):
-      XCTExpectFailure {
+      _XCTExpectFailure {
         XCTFail(
           """
           Skipped assertions: …
@@ -2093,6 +2097,8 @@ extension TestStore {
     }
   }
 }
+
+#if canImport(SwiftUI)
 
 extension TestStore {
   /// Returns a binding view store for this store.
@@ -2201,6 +2207,8 @@ extension TestStore where Action: BindableAction, State == Action.State {
     self.bindings(action: AnyCasePath())
   }
 }
+
+#endif
 
 /// The type returned from ``TestStore/send(_:assert:file:line:)-2co21`` that represents the
 /// lifecycle of the effect started from sending an action.
@@ -2477,6 +2485,36 @@ public enum Exhaustivity: Equatable, Sendable {
 
   /// Non-exhaustive assertions.
   public static let off = Self.off(showSkippedAssertions: false)
+}
+
+@_transparent
+private func _XCTExpectFailure(
+  _ failureReason: String? = nil,
+  strict: Bool = true,
+  failingBlock: () -> Void
+) {
+  #if DEBUG
+  #if !os(Windows)
+    guard
+      let XCTExpectedFailureOptions = NSClassFromString("XCTExpectedFailureOptions")
+        as Any as? NSObjectProtocol,
+      let options = strict
+        ? XCTExpectedFailureOptions
+          .perform(NSSelectorFromString("alloc"))?.takeUnretainedValue()
+          .perform(NSSelectorFromString("init"))?.takeUnretainedValue()
+        : XCTExpectedFailureOptions
+          .perform(NSSelectorFromString("nonStrictOptions"))?.takeUnretainedValue()
+    else { return }
+
+    let XCTExpectFailureWithOptionsInBlock = unsafeBitCast(
+      dlsym(dlopen(nil, RTLD_LAZY), "XCTExpectFailureWithOptionsInBlock"),
+      to: (@convention(c) (String?, AnyObject, () -> Void) -> Void).self
+    )
+    XCTExpectFailureWithOptionsInBlock(failureReason, options, failingBlock)
+  #else
+    print("Ignoring _XCTExpectFailure call on Windows platform.\n\nExpectedFailure: \(failureReason ?? "")")
+  #endif
+  #endif
 }
 
 extension TestStore {

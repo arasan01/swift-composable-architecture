@@ -1,3 +1,5 @@
+#if canImport(SwiftUI)
+
 import ComposableArchitecture
 import XCTest
 
@@ -2607,3 +2609,5 @@ final class PresentationReducerTests: BaseTCATestCase {
     XCTAssertLessThan(Date().timeIntervalSince(start), 0.1)
   }
 }
+
+#endif

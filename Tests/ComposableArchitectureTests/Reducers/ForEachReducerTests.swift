@@ -38,6 +38,7 @@
 
     #if DEBUG
       func testMissingElement() async {
+        try XCTSkipIfWindowsExpectFailure()
         let store = TestStore(initialState: Elements.State()) {
           EmptyReducer<Elements.State, Elements.Action>()
             .forEach(\.rows, action: \.rows) {}
