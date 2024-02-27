@@ -1,5 +1,9 @@
 #if swift(>=5.9)
+  #if canImport(Combine)
   import Combine
+  #elseif canImport(OpenCombine)
+  import OpenCombine
+  #endif
   import ComposableArchitecture
   import XCTest
 

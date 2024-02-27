@@ -6,7 +6,6 @@ import OpenCombine
 @_spi(Internals) import ComposableArchitecture
 import XCTest
 
-@MainActor
 final class StoreInvalidationTests: BaseTCATestCase {
   var cancellables: Set<AnyCancellable> = []
 

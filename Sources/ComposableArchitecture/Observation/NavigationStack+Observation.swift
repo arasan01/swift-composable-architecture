@@ -1,6 +1,5 @@
-import SwiftUI
-
-#if canImport(Perception)
+#if canImport(Perception) && canImport(SwiftUI)
+  import SwiftUI
   extension Binding {
     /// Derives a binding to a store focused on ``StackState`` and ``StackAction``.
     ///
@@ -264,49 +263,49 @@ import SwiftUI
       #endif
     }
   }
-
-  extension Store where State: ObservableState {
-    fileprivate subscript<ElementState, ElementAction>(
-      state state: KeyPath<State, StackState<ElementState>>,
-      action action: CaseKeyPath<Action, StackAction<ElementState, ElementAction>>,
-      isInViewBody isInViewBody: Bool = _isInPerceptionTracking
-    ) -> Store<StackState<ElementState>, StackAction<ElementState, ElementAction>> {
-      get {
-        #if DEBUG && !os(visionOS)
-          _PerceptionLocals.$isInPerceptionTracking.withValue(isInViewBody) {
-            self.scope(state: state, action: action)
-          }
-        #else
-          self.scope(state: state, action: action)
-        #endif
-      }
-      set {}
-    }
-  }
-
-  extension Store {
-    fileprivate subscript<ElementState, ElementAction>() -> StackState<ElementState>.PathView
-    where State == StackState<ElementState>, Action == StackAction<ElementState, ElementAction> {
-      get { self.currentState.path }
-      set {
-        let newCount = newValue.count
-        if newCount > self.currentState.count, let component = newValue.last {
-          self.send(.push(id: component.id, state: component.element))
-        } else {
-          self.send(.popFrom(id: self.currentState.ids[newCount]))
-        }
-      }
-    }
-  }
-
-  var _isInPerceptionTracking: Bool {
-    #if !os(visionOS)
-      return _PerceptionLocals.isInPerceptionTracking
-    #else
-      return false
-    #endif
-  }
 #endif
+
+extension Store where State: ObservableState {
+  fileprivate subscript<ElementState, ElementAction>(
+    state state: KeyPath<State, StackState<ElementState>>,
+    action action: CaseKeyPath<Action, StackAction<ElementState, ElementAction>>,
+    isInViewBody isInViewBody: Bool = _isInPerceptionTracking
+  ) -> Store<StackState<ElementState>, StackAction<ElementState, ElementAction>> {
+    get {
+      #if DEBUG && !os(visionOS)
+        _PerceptionLocals.$isInPerceptionTracking.withValue(isInViewBody) {
+          self.scope(state: state, action: action)
+        }
+      #else
+        self.scope(state: state, action: action)
+      #endif
+    }
+    set {}
+  }
+}
+
+extension Store {
+  fileprivate subscript<ElementState, ElementAction>() -> StackState<ElementState>.PathView
+  where State == StackState<ElementState>, Action == StackAction<ElementState, ElementAction> {
+    get { self.currentState.path }
+    set {
+      let newCount = newValue.count
+      if newCount > self.currentState.count, let component = newValue.last {
+        self.send(.push(id: component.id, state: component.element))
+      } else {
+        self.send(.popFrom(id: self.currentState.ids[newCount]))
+      }
+    }
+  }
+}
+
+var _isInPerceptionTracking: Bool {
+  #if !os(visionOS)
+    return _PerceptionLocals.isInPerceptionTracking
+  #else
+    return false
+  #endif
+}
 
 extension StackState {
   var path: PathView {
@@ -379,6 +378,7 @@ extension StackState {
   }
 }
 
+#if canImport(SwiftUI)
 private struct NavigationDestinationTypeKey: EnvironmentKey {
   static var defaultValue: Any.Type? { nil }
 }
@@ -389,3 +389,4 @@ extension EnvironmentValues {
     set { self[NavigationDestinationTypeKey.self] = newValue }
   }
 }
+#endif

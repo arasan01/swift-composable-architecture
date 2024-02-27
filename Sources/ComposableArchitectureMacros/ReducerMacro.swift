@@ -4,6 +4,7 @@ import SwiftSyntax
 import SwiftSyntaxBuilder
 import SwiftSyntaxMacroExpansion
 import SwiftSyntaxMacros
+import Foundation
 
 public enum ReducerMacro {
 }
@@ -400,7 +401,7 @@ extension ReducerMacro: MemberMacro {
         } else {
           decls.append("""
           \(raw: reducerScopes.joined(separator: "\n"))
-          
+
           """)
         }
         decls.append("}")

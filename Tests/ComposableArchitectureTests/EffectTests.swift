@@ -12,7 +12,7 @@
     var cancellables: Set<AnyCancellable> = []
     let mainQueue = DispatchQueue.test
 
-    #if (canImport(RegexBuilder) || !os(macOS) && !targetEnvironment(macCatalyst))
+    #if !os(Windows) && (canImport(RegexBuilder) || !os(macOS) && !targetEnvironment(macCatalyst))
       func testConcatenate() async {
         if #available(iOS 16, macOS 13, tvOS 16, watchOS 9, *) {
           await withMainSerialExecutor {

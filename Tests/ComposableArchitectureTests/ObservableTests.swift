@@ -1,5 +1,9 @@
 #if swift(>=5.9)
+  #if canImport(Combine)
   import Combine
+  #elseif canImport(OpenCombine)
+  import OpenCombine
+  #endif
   import ComposableArchitecture
   import XCTest
 
@@ -20,7 +24,8 @@
       XCTAssertEqual(state.count, 1)
     }
 
-    func testReplace() async {
+    func testReplace() async throws {
+      try XCTSkipIfWindowsExpectFailure()
       XCTTODO("Ideally this would pass but we cannot detect this kind of mutation currently.")
 
       var state = ChildState(count: 42)
@@ -37,7 +42,8 @@
       XCTAssertEqual(state.count, 0)
     }
 
-    func testReset() async {
+    func testReset() async throws {
+      try XCTSkipIfWindowsExpectFailure()
       XCTTODO("Ideally this would pass but we cannot detect this kind of mutation currently.")
 
       var state = ChildState(count: 42)
@@ -523,7 +529,7 @@
       }
 
       state.children.append(ChildState())
-      self.wait(for: [childrenDidChange])
+      self.wait(for: [childrenDidChange], timeout: 0)
     }
 
     func testArrayMutate() {
@@ -576,7 +582,8 @@
       self.wait(for: [onChangeExpectation], timeout: 0)
     }
 
-    func testEnumStateWithIntCase() {
+    func testEnumStateWithIntCase() throws {
+      try XCTSkipIfWindowsExpectFailure()
       let store = Store<EnumState, Void>(initialState: EnumState.int(0)) {
         Reduce { state, _ in
           state = .int(1)

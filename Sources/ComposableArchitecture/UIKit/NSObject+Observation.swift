@@ -1,5 +1,6 @@
-#if canImport(Perception) && canImport(ObjectiveC)
+#if canImport(Perception)
   import Foundation
+#if canImport(ObjectiveC)
   import ObjectiveC
 
   extension NSObject {
@@ -190,4 +191,41 @@
       self.cancel()
     }
   }
-#endif
+#else
+  public func observe(_ apply: @escaping () -> Void) -> ObservationToken {
+    let token = ObservationToken()
+    @Sendable func onChange() {
+      guard !token.isCancelled
+      else { return }
+
+      withPerceptionTracking(apply) {
+        Task { @MainActor in
+          guard !token.isCancelled
+          else { return }
+          onChange()
+        }
+      }
+    }
+    onChange()
+    return token
+  }
+
+  /// A token for cancelling observation created with ``ObjectiveC/NSObject/observe(_:)``.
+  public final class ObservationToken: Sendable {
+    private let _isCancelled = LockIsolated(false)
+    fileprivate var isCancelled: Bool { self._isCancelled.value }
+
+    /// Cancels observation that was created with ``ObjectiveC/NSObject/observe(_:)``.
+    ///
+    /// > Note: This cancellation is lazy and cooperative. It does not cancel the observation
+    /// immediately, but rather next time a change is detected by ``ObjectiveC/NSObject/observe(_:)``
+    /// it will cease any future observation.
+    public func cancel() { self._isCancelled.setValue(true) }
+
+    deinit {
+      self.cancel()
+    }
+  }
+#endif // canImport(ObjectiveC)
+
+#endif // canImport(Perception)

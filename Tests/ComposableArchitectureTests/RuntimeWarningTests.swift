@@ -64,7 +64,7 @@
 
     @MainActor
     func testStoreScopeMainThread() async throws {
-	  try XCTSkipIfWindowsExpectFailure()
+      try XCTSkipIfWindowsExpectFailure()
       uncheckedUseMainSerialExecutor = false
       XCTExpectFailure {
         [
@@ -93,8 +93,8 @@
 
     @MainActor
     func testViewStoreSendMainThread() async throws {
-	 try XCTSkipIfWindowsExpectFailure()
-     uncheckedUseMainSerialExecutor = false
+      try XCTSkipIfWindowsExpectFailure()
+      uncheckedUseMainSerialExecutor = false
       XCTExpectFailure {
         $0.compactDescription == """
           "Store.send" was called on a non-main thread with: () …
@@ -186,7 +186,7 @@
     #endif
 
     #if canImport(SwiftUI)
-    
+
     @MainActor
     func testBindingUnhandledAction() {
       let line = #line + 2

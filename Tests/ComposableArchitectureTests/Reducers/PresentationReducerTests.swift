@@ -26,7 +26,8 @@ final class PresentationReducerTests: BaseTCATestCase {
   }
 
   #if DEBUG
-    func testPresentationStateSubscriptCase_Unexpected() {
+    func testPresentationStateSubscriptCase_Unexpected() throws {
+      try XCTSkipIfWindowsExpectFailure()
       enum Child: Equatable {
         case int(Int)
         case text(String)
@@ -1699,7 +1700,8 @@ final class PresentationReducerTests: BaseTCATestCase {
   }
 
   #if DEBUG
-    func testRuntimeWarn_NilChild_SendDismissAction() async {
+    func testRuntimeWarn_NilChild_SendDismissAction() async throws {
+      try XCTSkipIfWindowsExpectFailure()
       struct Child: Reducer {
         struct State: Equatable {}
         enum Action: Equatable {}
@@ -1756,7 +1758,8 @@ final class PresentationReducerTests: BaseTCATestCase {
   #endif
 
   #if DEBUG
-    func testRuntimeWarn_NilChild_SendChildAction() async {
+    func testRuntimeWarn_NilChild_SendChildAction() async throws {
+      try XCTSkipIfWindowsExpectFailure()
       struct Child: Reducer {
         struct State: Equatable {}
         enum Action: Equatable {
@@ -2224,7 +2227,8 @@ final class PresentationReducerTests: BaseTCATestCase {
   }
 
   #if DEBUG
-    func testPresentation_leaveChildPresented_WithLongLivingEffect() async {
+    func testPresentation_leaveChildPresented_WithLongLivingEffect() async throws {
+      try XCTSkipIfWindowsExpectFailure()
       struct Child: Reducer {
         struct State: Equatable {}
         enum Action: Equatable { case tap }
@@ -2479,7 +2483,8 @@ final class PresentationReducerTests: BaseTCATestCase {
     await store.send(.tapAfter)
   }
 
-  func testPresentation_leaveAlertPresentedForNonAlertActions() async {
+  func testPresentation_leaveAlertPresentedForNonAlertActions() async throws {
+    try XCTSkipIfWindowsExpectFailure()
     if #available(iOS 16, macOS 13, tvOS 16, watchOS 9, *) {
       struct Child: Reducer {
         struct State: Equatable {

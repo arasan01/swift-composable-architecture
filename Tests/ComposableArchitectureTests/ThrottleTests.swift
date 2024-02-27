@@ -1,4 +1,5 @@
 #if swift(>=5.9)
+  import ComposableArchitecture
   #if canImport(Combine)
   import Combine
   #elseif canImport(OpenCombine)

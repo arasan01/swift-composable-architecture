@@ -1,4 +1,4 @@
-#if canImport(Perception)
+#if canImport(Perception) && canImport(SwiftUI)
   import SwiftUI
 
   extension Binding {

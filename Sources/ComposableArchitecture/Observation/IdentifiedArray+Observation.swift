@@ -1,6 +1,8 @@
 #if canImport(Perception)
   import OrderedCollections
+  #if canImport(SwiftUI)
   import SwiftUI
+  #endif
 
   extension Store where State: ObservableState {
     /// Scopes the store of an identified collection to a collection of stores.

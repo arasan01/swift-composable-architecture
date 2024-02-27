@@ -2,10 +2,11 @@
   @_spi(Internals) import ComposableArchitecture
   import XCTest
 
-  @MainActor
+
   final class ScopeCacheTests: BaseTCATestCase {
     @available(*, deprecated)
-    func testOptionalScope_UncachedStore() {
+    func testOptionalScope_UncachedStore() throws {
+      try XCTSkipIfWindowsExpectFailure()
       #if DEBUG
         let store = StoreOf<Feature>(initialState: Feature.State(child: Feature.State())) {
         }
@@ -65,7 +66,8 @@
     }
 
     @available(*, deprecated)
-    func testOptionalScope_StoreIfLet_UncachedStore() {
+    func testOptionalScope_StoreIfLet_UncachedStore() throws {
+      try XCTSkipIfWindowsExpectFailure()
       #if DEBUG
         let store = StoreOf<Feature>(initialState: Feature.State(child: Feature.State())) {
         }
@@ -113,7 +115,8 @@
     }
 
     @available(*, deprecated)
-    func testIdentifiedArrayScope_UncachedStore() {
+    func testIdentifiedArrayScope_UncachedStore() throws {
+      try XCTSkipIfWindowsExpectFailure()
       #if DEBUG
         let store = StoreOf<Feature>(initialState: Feature.State(rows: [Feature.State()])) {
           Feature()

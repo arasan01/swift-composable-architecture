@@ -1,3 +1,4 @@
+#if canImport(SwiftUI)
 import SwiftDiagnostics
 import SwiftSyntax
 import SwiftSyntaxMacroExpansion
@@ -192,3 +193,4 @@ extension FunctionCallExprSyntax {
     return nil
   }
 }
+#endif

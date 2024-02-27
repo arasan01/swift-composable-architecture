@@ -1,5 +1,7 @@
 #if canImport(Perception)
+  #if canImport(SwiftUI)
   import SwiftUI
+  #endif
 
   #if canImport(Observation)
     import Observation
@@ -101,6 +103,7 @@
     }
   }
 
+  #if canImport(SwiftUI)
   extension Binding {
     /// Scopes the binding of a store to a binding of an optional presentation store.
     ///
@@ -273,7 +276,7 @@
       self[state: state, action: action]
     }
   }
-
+  #endif
   extension Store where State: ObservableState {
     fileprivate subscript<ChildState, ChildAction>(
       state state: KeyPath<State, ChildState?>,

@@ -1,8 +1,6 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.0
 
-#if !os(Windows)
 import CompilerPluginSupport
-#endif
 import PackageDescription
 
 let package = Package(
@@ -30,7 +28,7 @@ let package = Package(
     .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.1.0"),
     .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0"),
     .package(url: "https://github.com/pointfreeco/swift-macro-testing", from: "0.2.0"),
-    .package(url: "https://github.com/pointfreeco/swift-perception", from: "1.1.1"),
+    .package(url: "https://github.com/arasan01/swift-perception", branch: "main"),
     .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "1.1.0"),
     .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.1.0"),
     .combineScheduler,
@@ -40,7 +38,7 @@ let package = Package(
     .target(
       name: "ComposableArchitecture",
       dependencies: [
-        .macros,
+        "ComposableArchitectureMacros",
         .product(name: "CasePaths", package: "swift-case-paths"),
         .product(name: "ConcurrencyExtras", package: "swift-concurrency-extras"),
         .product(name: "CustomDump", package: "swift-custom-dump"),
@@ -66,16 +64,28 @@ let package = Package(
         "ComposableArchitecture"
       ]
     ),
-    .macros,
-    .macrosTests,
+    .macro(
+      name: "ComposableArchitectureMacros",
+      dependencies: [
+        .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+        .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+      ]
+    ),
+    // .testTarget(
+    //   name: "ComposableArchitectureMacrosTests",
+    //   dependencies: [
+    //     "ComposableArchitectureMacros",
+    //     .product(name: "MacroTesting", package: "swift-macro-testing"),
+    //   ]
+    // ),
     .executableTarget(
       name: "swift-composable-architecture-benchmark",
       dependencies: [
         "ComposableArchitecture",
         .product(name: "Benchmark", package: "swift-benchmark"),
       ]
-    ),
-  ].compactMap({ $0 })
+    )
+  ]
 )
 
 // We have to conditionally declare the open-combine-schedulers code
@@ -122,44 +132,6 @@ extension Target.Dependency {
     .product(name: "OpenCombine", package: "OpenCombine")
     #else
     nil
-    #endif
-  }
-
-  static var macros: Target.Dependency? {
-    #if os(Windows)
-    nil
-    #else
-    "ComposableArchitectureMacros"
-    #endif
-  }
-}
-
-extension Target {
-  static var macros: Target? {
-    #if os(Windows)
-    nil
-    #else
-    .macro(
-      name: "ComposableArchitectureMacros",
-      dependencies: [
-        .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-        .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-      ]
-    )
-    #endif
-  }
-
-  static var macrosTests: Target? {
-    #if os(Windows)
-    nil
-    #else
-    .testTarget(
-      name: "ComposableArchitectureMacrosTests",
-      dependencies: [
-        "ComposableArchitectureMacros",
-        .product(name: "MacroTesting", package: "swift-macro-testing"),
-      ]
-    )
     #endif
   }
 }

@@ -1,5 +1,9 @@
-#if swift(>=5.9)
+#if swift(>=5.9) && canImport(OSLog)
+  #if canImport(Combine)
   import Combine
+  #elseif canImport(OpenCombine)
+  import OpenCombine
+  #endif
   @_spi(Logging) import ComposableArchitecture
   import XCTest
 
@@ -66,7 +70,8 @@
         )
       }
 
-      func testStoreDeinit_RunningEffect() async {
+      func testStoreDeinit_RunningEffect() async throws {
+        try XCTSkipIfWindowsExpectFailure()
         XCTTODO(
           "We would like for this to pass, but it requires full deprecation of uncached child stores"
         )
@@ -95,7 +100,8 @@
         await self.fulfillment(of: [effectFinished], timeout: 0.5)
       }
 
-      func testStoreDeinit_RunningCombineEffect() async {
+      func testStoreDeinit_RunningCombineEffect() async throws {
+        try XCTSkipIfWindowsExpectFailure()
         XCTTODO(
           "We would like for this to pass, but it requires full deprecation of uncached child stores"
         )

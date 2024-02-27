@@ -143,6 +143,7 @@
   public macro Presents() =
     #externalMacro(module: "ComposableArchitectureMacros", type: "PresentsMacro")
 
+  #if canImport(SwiftUI)
   /// Provides a view with access to a feature's ``ViewAction``s.
   ///
   /// If you want to restrict what actions can be sent from the view you can use this macro along
@@ -200,4 +201,5 @@
     #externalMacro(
       module: "ComposableArchitectureMacros", type: "ViewActionMacro"
     ) where R.Action: ViewAction
+  #endif
 #endif

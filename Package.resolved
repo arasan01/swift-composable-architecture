@@ -10,6 +10,24 @@
       }
     },
     {
+      "identity" : "open-combine-schedulers",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/thebrowsercompany/open-combine-schedulers",
+      "state" : {
+        "branch" : "main",
+        "revision" : "1563c2af3859dad33938d2053a9bff872da77699"
+      }
+    },
+    {
+      "identity" : "opencombine",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/OpenCombine/OpenCombine.git",
+      "state" : {
+        "revision" : "8576f0d579b27020beccbccc3ea6844f3ddfc2c2",
+        "version" : "0.14.0"
+      }
+    },
+    {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser",
@@ -120,10 +138,10 @@
     {
       "identity" : "swift-perception",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pointfreeco/swift-perception",
+      "location" : "https://github.com/arasan01/swift-perception",
       "state" : {
-        "revision" : "42240120b2a8797595433288ab4118f8042214c3",
-        "version" : "1.1.1"
+        "branch" : "main",
+        "revision" : "3bc6d4d2eadf26c1b129dbf946d0ae8d49d1f132"
       }
     },
     {

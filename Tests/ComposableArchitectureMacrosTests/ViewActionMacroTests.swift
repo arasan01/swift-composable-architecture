@@ -1,4 +1,4 @@
-#if canImport(ComposableArchitectureMacros)
+#if canImport(ComposableArchitectureMacros) && canImport(SwiftUI)
   import ComposableArchitectureMacros
   import MacroTesting
   import XCTest

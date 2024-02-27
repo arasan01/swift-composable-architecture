@@ -86,7 +86,7 @@
     #if DEBUG
       func testExpectedStateEquality() async throws {
         try XCTSkipIfWindowsExpectFailure()
-        
+
         struct State: Equatable {
           var count: Int = 0
           var isChanging: Bool = false
@@ -135,7 +135,7 @@
 
       func testExpectedStateEqualityMustModify() async throws {
         try XCTSkipIfWindowsExpectFailure()
-        
+
         struct State: Equatable {
           var count: Int = 0
         }
@@ -171,7 +171,7 @@
 
       func testReceiveActionMatchingPredicate() async throws {
         try XCTSkipIfWindowsExpectFailure()
-        
+
         enum Action: Equatable {
           case noop, finished
         }
@@ -461,7 +461,8 @@
     }
 
     #if DEBUG
-      func testAssert_NonExhaustiveTestStore_Failure() async {
+      func testAssert_NonExhaustiveTestStore_Failure() async throws {
+        try XCTSkipIfWindowsExpectFailure()
         let store = TestStore(initialState: 0) {
           EmptyReducer<Int, Void>()
         }
@@ -547,7 +548,8 @@
     }
 
     #if DEBUG
-      func testReceiveCaseKeyPathWithValue() async {
+      func testReceiveCaseKeyPathWithValue() async throws {
+        try XCTSkipIfWindowsExpectFailure()
         let store = TestStore<Int, Action>(initialState: 0) {
           Reduce { state, action in
             switch action {
