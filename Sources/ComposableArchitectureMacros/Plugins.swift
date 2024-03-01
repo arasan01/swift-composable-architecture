@@ -10,9 +10,7 @@ struct MacrosPlugin: CompilerPlugin {
     PresentsMacro.self,
     ReducerMacro.self,
     ReducerCaseEphemeralMacro.self,
-    ReducerCaseIgnoredMacro.self
+    ReducerCaseIgnoredMacro.self,
+    ViewActionMacro.self
   ]
-  #if canImport(SwiftUI)
-  .append(newElement: ViewActionMacro.self)
-  #endif
 }

@@ -13,11 +13,9 @@
           ObservableStateMacro.self,
           ObservationStateTrackedMacro.self,
           ObservationStateIgnoredMacro.self,
-          PresentsMacro.self
+          PresentsMacro.self,
+          ViewActionMacro.self
         ]
-        #if canImport(SwiftUI)
-        .append(newElement: ViewActionMacro.self)
-        #endif
       ) {
         super.invokeTest()
       }

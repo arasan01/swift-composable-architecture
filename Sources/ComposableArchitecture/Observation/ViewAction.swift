@@ -1,5 +1,6 @@
 #if canImport(SwiftUI)
 import SwiftUI
+#endif
 
 
 /// Defines the actions that can be sent from a view.
@@ -24,6 +25,7 @@ extension ViewActionSending {
     self.store.send(.view(action))
   }
 
+  #if canImport(SwiftUI)
   /// Send a view action to the store with animation.
   @discardableResult
   public func send(_ action: StoreAction.ViewAction, animation: Animation?) -> StoreTask {
@@ -35,5 +37,6 @@ extension ViewActionSending {
   public func send(_ action: StoreAction.ViewAction, transaction: Transaction) -> StoreTask {
     self.store.send(.view(action), transaction: transaction)
   }
+  #endif
 }
-#endif
+
