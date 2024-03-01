@@ -1,4 +1,4 @@
-// swift-tools-version:6.0
+// swift-tools-version:5.9
 
 import CompilerPluginSupport
 import PackageDescription
@@ -28,7 +28,7 @@ let package = Package(
     .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.1.0"),
     .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0"),
     .package(url: "https://github.com/pointfreeco/swift-macro-testing", from: "0.2.0"),
-    .package(url: "https://github.com/arasan01/swift-perception", branch: "main"),
+    .package(url: "https://github.com/arasan01/swift-perception", revision: "40b63403b1c5a5c770b0ce02e58d335b5f69b149"),
     .package(url: "https://github.com/pointfreeco/swiftui-navigation", from: "1.1.0"),
     .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "1.1.0"),
     .combineScheduler,

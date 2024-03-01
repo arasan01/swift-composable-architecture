@@ -1,4 +1,5 @@
 {
+  "originHash" : "1e116449f95c50cad65618f82f52c1bb83f2c36b70f47099debc929daf164046",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -140,8 +141,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/arasan01/swift-perception",
       "state" : {
-        "branch" : "main",
-        "revision" : "3bc6d4d2eadf26c1b129dbf946d0ae8d49d1f132"
+        "revision" : "40b63403b1c5a5c770b0ce02e58d335b5f69b149"
       }
     },
     {
@@ -181,5 +181,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
